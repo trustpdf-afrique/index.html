@@ -150,28 +150,79 @@
   <div id="resume">⏳ Temps total d'étude cette semaine : 0 minutes</div>
 
   <!-- Moyenne -->
-  <h2>📊 Calcul de la Moyenne Générale</h2>
-  <form id="formMoyenne" onsubmit="return false;">
-    <table>
-      <thead>
-        <tr>
-          <th>Matière</th>
-          <th>Coef</th>
-          <th>Nb Ex</th>
-          <th>Notes</th>
-          <th>Moyenne</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-    <div id="totaux">
-      <p>Somme des Coefs : <span id="sommeCoef">0</span></p>
-      <p>Somme des Totaux : <span id="sommeTotaux">0</span></p>
-    </div>
-    <button onclick="calculerMoyenne()">Calculer la moyenne</button>
-  </form>
-  <div id="resultat"></div>
+  <h2>📘 Bulletin de Zakaria - Calcul Automatique</h2>
+
+<table id="bulletin">
+  <tr>
+    <th>Discipline</th>
+    <th>Coef.</th>
+    <th>Note</th>
+    <th>Total</th>
+  </tr>
+
+  <tr class="section-title"><td colspan="4">--- LETTRES ---</td></tr>
+  <tr><td>Français</td><td>3</td><td><input type="number" class="note" data-coef="3"></td><td class="total"></td></tr>
+  <tr><td>Anglais</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
+  <tr><td>Histoire - Géographie</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
+
+  <tr class="section-title"><td colspan="4">--- SCIENCES ---</td></tr>
+  <tr><td>Mathématiques</td><td>3</td><td><input type="number" class="note" data-coef="3"></td><td class="total"></td></tr>
+  <tr><td>Physique - Chimie</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
+  <tr><td>SVT</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
+
+  <tr class="section-title"><td colspan="4">--- AUTRES MATIÈRES ---</td></tr>
+  <tr><td>EDHC</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+  <tr><td>EPS</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+  <tr><td>Arts plastiques</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+  <tr><td>Musique</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+  <tr><td>TICE à l'école</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+  <tr><td>Conduite</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+  <tr><td>Entrepreneuriat</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
+
+  <tr class="total-row">
+    <td colspan="2">Total général</td>
+    <td id="total-coefs">-</td>
+    <td id="total-points">-</td>
+  </tr>
+
+  <tr class="final-row">
+    <td colspan="3">🎯 Moyenne Générale</td>
+    <td id="moyenne-generale">-</td>
+  </tr>
+</table>
+
+<script>
+  const notes = document.querySelectorAll(".note");
+  const totalCells = document.querySelectorAll(".total");
+  const totalCoefs = document.getElementById("total-coefs");
+  const totalPoints = document.getElementById("total-points");
+  const moyenneGenerale = document.getElementById("moyenne-generale");
+
+  function calculer() {
+    let total = 0;
+    let coefs = 0;
+
+    notes.forEach((input, index) => {
+      const coef = parseFloat(input.dataset.coef);
+      const note = parseFloat(input.value);
+
+      if (!isNaN(note)) {
+        const val = note * coef;
+        totalCells[index].innerText = val.toFixed(2);
+        total += val;
+        coefs += coef;
+      } else {
+        totalCells[index].innerText = "";
+      }
+    });
+
+    totalPoints.innerText = total.toFixed(2);
+    totalCoefs.innerText = coefs;
+    moyenneGenerale.innerText = coefs ? (total / coefs).toFixed(2) : "-";
+  }
+
+  notes.forEach(input => input.addEventListener("input", calculer));
+</script>
 </div>
 
 <!-- Sons -->
