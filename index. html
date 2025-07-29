@@ -3,492 +3,233 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Secret École Zakaria</title>
+  <title>Connexion & Bulletin Zakaria</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
-      color: #222;
+      background: #f0f8ff;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      color: #333;
     }
-    h1, h2, h3 {
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(26, 35, 126, 0.3);
+    }
+    h2 {
+      color: #1a237e;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #login-section input[type="text"],
+    #login-section input[type="password"],
+    #login-section input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    #login-section button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1a237e;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 12px;
+      transition: background-color 0.3s ease;
+    }
+    #login-section button:hover {
+      background-color: #3949ab;
+    }
+    #error {
+      color: #d32f2f;
+      margin-top: 15px;
+      font-weight: bold;
+      min-height: 20px;
       text-align: center;
     }
     table {
       width: 100%;
-      max-width: 700px;
-      margin: 20px auto;
       border-collapse: collapse;
       background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 3px solid #000;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
     }
     th, td {
+      border: 1px solid #444;
       padding: 10px;
-      border: 1px solid #ccc;
       text-align: center;
     }
-    input[type="number"], input[type="text"], input[type="password"], input[type="time"] {
-      padding: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      text-align: center;
-    }
-    input[type="number"] {
-      width: 60px;
-    }
-    .notes-container input {
-      width: 50px;
-      margin: 2px;
-    }
-    #resultat, #totaux {
-      text-align: center;
-      max-width: 700px;
-      margin: 10px auto;
+    th {
+      background-color: #bbdefb;
       font-weight: bold;
     }
-    #resultat {
-      font-size: 1.3em;
-      color: #ff6600;
-    }
-    button {
-      display: block;
-      margin: 15px auto;
-      padding: 10px 25px;
-      background-color: #ff6600;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-    button:hover {
-      background-color: #e55b00;
-    }
-    #loginForm {
-      max-width: 400px;
-      margin: 80px auto;
-      background: white;
-      padding: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      border-radius: 8px;
-    }
-    #appContainer {
-      display: none;
-    }
-    #planning div.seance {
-      margin: 6px 0;
-      padding: 6px 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #f5f5f5;
+    tr.section-title td {
+      background-color: #64b5f6;
+      font-weight: bold;
       text-align: left;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+      padding-left: 10px;
+      color: #fff;
     }
-    #planning div.seance button.supprimerBtn {
-      float: right;
-      background-color: #e55b00;
-      color: white;
-      border: none;
+    input.note-input, input.coef-input {
+      width: 60px;
+      padding: 5px;
+      text-align: center;
+      border: 1px solid #aaa;
       border-radius: 4px;
-      cursor: pointer;
-      padding: 2px 8px;
-      font-size: 0.9em;
     }
-    #planning div.seance button.supprimerBtn:hover {
-      background-color: #cc4c00;
+    tr.total-row td {
+      background-color: #fff59d;
+      font-weight: bold;
+    }
+    tr.final-row td {
+      background-color: #a5d6a7;
+      font-weight: bold;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div id="login-section">
+      <h2>🔐 Connexion Zakaria</h2>
+      <input type="text" id="username" placeholder="Nom d'utilisateur" autocomplete="username" />
+      <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password" />
+      <input type="number" id="idcode" placeholder="Numéro d'identité" />
+      <button onclick="verifierConnexion()">Se connecter</button>
+      <div class="error" id="error"></div>
+    </div>
 
-<!-- Connexion -->
-<div id="loginForm">
-  <h2>Connexion à Secret École Zakaria</h2>
-  <label>Nom d'utilisateur :</label><br>
-  <input type="text" id="username" placeholder="Nom d'utilisateur" value="Niampa"><br><br>
-  <label>Mot de passe :</label><br>
-  <input type="password" id="password" placeholder="Mot de passe" value="4917"><br><br>
-  <button onclick="connexion()">Se connecter</button>
-</div>
+    <div id="bulletin-section" style="display:none;">
+      <h2>📘 Bulletin de Zakaria - Calcul Automatique</h2>
+      <table id="bulletin">
+        <tr>
+          <th>Discipline</th>
+          <th>Coef.</th>
+          <th>Note</th>
+          <th>Total</th>
+        </tr>
 
-<!-- Application -->
-<div id="appContainer">
-  <h1>Secret École Zakaria</h1>
+        <tr class="section-title"><td colspan="4">--- LETTRES ---</td></tr>
+        <tr><td>Français</td><td><input class="coef-input" data-id="coef-fr" type="number" value="3" /></td><td><input class="note-input" data-id="note-fr" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Anglais</td><td><input class="coef-input" data-id="coef-an" type="number" value="2" /></td><td><input class="note-input" data-id="note-an" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Histoire - Géographie</td><td><input class="coef-input" data-id="coef-hg" type="number" value="2" /></td><td><input class="note-input" data-id="note-hg" type="number" /></td><td class="total"></td></tr>
 
-  <h2>📘 Mon Planning d'Étude</h2>
-  <label>Matière :</label>
-  <select id="matiere">
-    <option>Maths</option>
-    <option>Français</option>
-    <option>Histoire-Géographie</option>
-    <option>Physique-Chimie</option>
-    <option>SVT</option>
-    <option>Anglais</option>
-    <option>Allemand</option>
-  </select>
-  <label>Jour :</label>
-  <select id="jour">
-    <option>Lundi</option>
-    <option>Mardi</option>
-    <option>Mercredi</option>
-    <option>Jeudi</option>
-    <option>Vendredi</option>
-    <option>Samedi</option>
-    <option>Dimanche</option>
-  </select>
-  <label>Heure début :</label>
-  <input type="time" id="heureDebut" />
-  <label>Durée (minutes) :</label>
-  <input type="number" id="duree" min="1" max="480" placeholder="90" />
-  <button onclick="ajouterPlanning()">Ajouter à mon planning</button>
-  <div id="planning">
-    <h3>🗓️ Mes séances :</h3>
-    <div id="liste"></div>
+        <tr class="section-title"><td colspan="4">--- SCIENCES ---</td></tr>
+        <tr><td>Mathématiques</td><td><input class="coef-input" data-id="coef-math" type="number" value="3" /></td><td><input class="note-input" data-id="note-math" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Physique - Chimie</td><td><input class="coef-input" data-id="coef-pc" type="number" value="2" /></td><td><input class="note-input" data-id="note-pc" type="number" /></td><td class="total"></td></tr>
+        <tr><td>SVT</td><td><input class="coef-input" data-id="coef-svt" type="number" value="2" /></td><td><input class="note-input" data-id="note-svt" type="number" /></td><td class="total"></td></tr>
+
+        <tr class="section-title"><td colspan="4">--- AUTRES MATIÈRES ---</td></tr>
+        <tr><td>EDHC</td><td><input class="coef-input" data-id="coef-edhc" type="number" value="1" /></td><td><input class="note-input" data-id="note-edhc" type="number" /></td><td class="total"></td></tr>
+        <tr><td>EPS</td><td><input class="coef-input" data-id="coef-eps" type="number" value="1" /></td><td><input class="note-input" data-id="note-eps" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Allemand</td><td><input class="coef-input" data-id="coef-allemand" type="number" value="1" /></td><td><input class="note-input" data-id="note-allemand" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Musique</td><td><input class="coef-input" data-id="coef-musique" type="number" value="1" /></td><td><input class="note-input" data-id="note-musique" type="number" /></td><td class="total"></td></tr>
+        <tr><td>TICE à l'école</td><td><input class="coef-input" data-id="coef-tice" type="number" value="1" /></td><td><input class="note-input" data-id="note-tice" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Conduite</td><td><input class="coef-input" data-id="coef-conduite" type="number" value="1" /></td><td><input class="note-input" data-id="note-conduite" type="number" /></td><td class="total"></td></tr>
+        <tr><td>Espagnol</td><td><input class="coef-input" data-id="coef-espagnol" type="number" value="1" /></td><td><input class="note-input" data-id="note-espagnol" type="number" /></td><td class="total"></td></tr>
+
+        <tr class="total-row">
+          <td colspan="2">Total général</td>
+          <td id="total-coefs">-</td>
+          <td id="total-points">-</td>
+        </tr>
+        <tr class="final-row">
+          <td colspan="3">🎯 Moyenne Générale</td>
+          <td id="moyenne-generale">-</td>
+        </tr>
+      </table>
+    </div>
   </div>
-  <div id="resume">⏳ Temps total d'étude cette semaine : 0 minutes</div>
 
-  <!-- Moyenne -->
-  <h2>📘 Bulletin de Zakaria - Calcul Automatique</h2>
+  <script>
+    function verifierConnexion() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const idcode = document.getElementById("idcode").value.trim();
+      const errorDiv = document.getElementById("error");
 
-<table id="bulletin">
-  <tr>
-    <th>Discipline</th>
-    <th>Coef.</th>
-    <th>Note</th>
-    <th>Total</th>
-  </tr>
-
-  <tr class="section-title"><td colspan="4">--- LETTRES ---</td></tr>
-  <tr><td>Français</td><td>3</td><td><input type="number" class="note" data-coef="3"></td><td class="total"></td></tr>
-  <tr><td>Anglais</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
-  <tr><td>Histoire - Géographie</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
-
-  <tr class="section-title"><td colspan="4">--- SCIENCES ---</td></tr>
-  <tr><td>Mathématiques</td><td>3</td><td><input type="number" class="note" data-coef="3"></td><td class="total"></td></tr>
-  <tr><td>Physique - Chimie</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
-  <tr><td>SVT</td><td>2</td><td><input type="number" class="note" data-coef="2"></td><td class="total"></td></tr>
-
-  <tr class="section-title"><td colspan="4">--- AUTRES MATIÈRES ---</td></tr>
-  <tr><td>EDHC</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-  <tr><td>EPS</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-  <tr><td>Arts plastiques</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-  <tr><td>Musique</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-  <tr><td>TICE à l'école</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-  <tr><td>Conduite</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-  <tr><td>Entrepreneuriat</td><td>1</td><td><input type="number" class="note" data-coef="1"></td><td class="total"></td></tr>
-
-  <tr class="total-row">
-    <td colspan="2">Total général</td>
-    <td id="total-coefs">-</td>
-    <td id="total-points">-</td>
-  </tr>
-
-  <tr class="final-row">
-    <td colspan="3">🎯 Moyenne Générale</td>
-    <td id="moyenne-generale">-</td>
-  </tr>
-</table>
-
-<script>
-  const notes = document.querySelectorAll(".note");
-  const totalCells = document.querySelectorAll(".total");
-  const totalCoefs = document.getElementById("total-coefs");
-  const totalPoints = document.getElementById("total-points");
-  const moyenneGenerale = document.getElementById("moyenne-generale");
-
-  function calculer() {
-    let total = 0;
-    let coefs = 0;
-
-    notes.forEach((input, index) => {
-      const coef = parseFloat(input.dataset.coef);
-      const note = parseFloat(input.value);
-
-      if (!isNaN(note)) {
-        const val = note * coef;
-        totalCells[index].innerText = val.toFixed(2);
-        total += val;
-        coefs += coef;
+      if (user === "Niampa" && pass === "23214622C" && idcode === "22") {
+        errorDiv.innerText = "";
+        document.getElementById("login-section").style.display = "none";
+        document.getElementById("bulletin-section").style.display = "block";
       } else {
-        totalCells[index].innerText = "";
+        errorDiv.innerText = "⛔ Informations incorrectes. Veuillez réessayer.";
       }
-    });
-
-    totalPoints.innerText = total.toFixed(2);
-    totalCoefs.innerText = coefs;
-    moyenneGenerale.innerText = coefs ? (total / coefs).toFixed(2) : "-";
-  }
-
-  notes.forEach(input => input.addEventListener("input", calculer));
-</script>
-</div>
-
-<!-- Sons -->
-<audio id="sonDebut" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
-<audio id="sonFin" src="https://www.soundjay.com/button/beep-07.mp3" preload="auto"></audio>
-
-<script>
-  // --- Variables globales ---
-  const STORAGE_PLANNING_KEY = "secretEcoleZakaria_planning";
-  const STORAGE_NOTES_KEY = "secretEcoleZakaria_notes";
-
-  // --- Connexion ---
-  function connexion() {
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    if (user === "Niampa" && pass === "4917") {
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("appContainer").style.display = "block";
-      chargerPlanning();
-      chargerNotes();
-    } else {
-      alert("Nom d'utilisateur ou mot de passe incorrect.");
     }
-  }
 
-  // --- Planning ---
-  let planning = [];
+    const rows = document.querySelectorAll("#bulletin tr:not(.section-title):not(.total-row):not(.final-row)");
+    const totalCoefs = document.getElementById("total-coefs");
+    const totalPoints = document.getElementById("total-points");
+    const moyenneGenerale = document.getElementById("moyenne-generale");
 
-  function timeToMinutes(t) {
-    const [h, m] = t.split(":").map(Number);
-    return h * 60 + m;
-  }
-  function minutesToTime(mins) {
-    const h = Math.floor(mins / 60);
-    const m = mins % 60;
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-  }
+    function calculer() {
+      let total = 0;
+      let coefs = 0;
 
-  // Affiche le planning dans #liste avec bouton supprimer
-  function afficherPlanning() {
-    const liste = document.getElementById('liste');
-    liste.innerHTML = "";
-    planning.forEach((seance, index) => {
-      const div = document.createElement("div");
-      div.className = "seance";
-      div.textContent = `📘 ${seance.matiere} - 🗓️ ${seance.jour} de ${seance.heureDebut} à ${seance.heureFin} (${seance.duree} min)`;
+      rows.forEach(row => {
+        const coefInput = row.querySelector(".coef-input");
+        const noteInput = row.querySelector(".note-input");
+        const totalCell = row.querySelector(".total");
 
-      // Bouton supprimer à côté
-      const btnSuppr = document.createElement("button");
-      btnSuppr.textContent = "Supprimer";
-      btnSuppr.className = "supprimerBtn";
-      btnSuppr.onclick = () => {
-        // Supprime la séance sans réduire le temps total
-        planning.splice(index, 1);
-        sauvegarderPlanning();
-        afficherPlanning();
-        // Ne pas appeler miseAJourResume() pour garder le total intact
-      };
-      div.appendChild(btnSuppr);
+        const coef = parseFloat(coefInput?.value);
+        const note = parseFloat(noteInput?.value);
 
-      liste.appendChild(div);
-    });
-  }
-
-  // Met à jour le total des minutes (somme des durées au moment de l'ajout)
-  // Pour respecter la demande, on n'appelle plus cette fonction lors d'une suppression
-  let totalMinutes = 0;
-  function miseAJourResume() {
-    // Recalcule total uniquement quand on ajoute (pas quand on supprime)
-    totalMinutes = planning.reduce((s, e) => s + e.duree, 0);
-    document.getElementById("resume").textContent = `⏳ Temps total d'étude cette semaine : ${totalMinutes} minutes`;
-  }
-
-  // Sauvegarde planning dans localStorage
-  function sauvegarderPlanning() {
-    localStorage.setItem(STORAGE_PLANNING_KEY, JSON.stringify(planning));
-  }
-
-  // Charge planning depuis localStorage
-  function chargerPlanning() {
-    const data = localStorage.getItem(STORAGE_PLANNING_KEY);
-    if (data) {
-      try {
-        planning = JSON.parse(data);
-      } catch {
-        planning = [];
-      }
-    } else {
-      planning = [];
-    }
-    afficherPlanning();
-    // Ne pas remettre à jour le total ici pour garder le total intact après suppression
-    if (totalMinutes === 0) {
-      // Au premier chargement, on calcule totalMinutes normalement
-      totalMinutes = planning.reduce((s, e) => s + e.duree, 0);
-    }
-    document.getElementById("resume").textContent = `⏳ Temps total d'étude cette semaine : ${totalMinutes} minutes`;
-  }
-
-  // Ajouter une séance au planning
-  function ajouterPlanning() {
-    const matiere = document.getElementById('matiere').value;
-    const jour = document.getElementById('jour').value;
-    const heureDebut = document.getElementById('heureDebut').value;
-    const duree = parseInt(document.getElementById('duree').value);
-    if (!heureDebut || isNaN(duree) || duree <= 0) {
-      alert("Entrez une heure et une durée valides.");
-      return;
-    }
-    const debutMin = timeToMinutes(heureDebut);
-    const finMin = debutMin + duree;
-    if (finMin > 1440) {
-      alert("Durée trop longue !");
-      return;
-    }
-    const heureFin = minutesToTime(finMin);
-    // Ajout au planning
-    planning.push({ matiere, jour, heureDebut, heureFin, duree });
-    sauvegarderPlanning();
-    afficherPlanning();
-    // Ajout au totalMinutes mais on garde le total affiché tel quel (par ta demande)
-    totalMinutes += duree;
-    document.getElementById("resume").textContent = `⏳ Temps total d'étude cette semaine : ${totalMinutes} minutes`;
-    document.getElementById('sonDebut').play();
-  }
-
-  // --- Notifications de début/fin séances ---
-  setInterval(() => {
-    const now = new Date();
-    const jours = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-    const j = jours[now.getDay()];
-    const h = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0');
-    planning.forEach(seance => {
-      if (seance.jour === j) {
-        if (seance.heureDebut === h) {
-          document.getElementById("sonDebut").play();
-          alert("🔔 Début de " + seance.matiere);
+        if (!isNaN(coef) && !isNaN(note) && note >= 0 && note <= 20) {
+          const val = coef * note;
+          totalCell.innerText = val.toFixed(2);
+          total += val;
+          coefs += coef;
+        } else {
+          totalCell.innerText = "";
         }
-        if (seance.heureFin === h) {
-          document.getElementById("sonFin").play();
-          alert("✅ Fin de " + seance.matiere);
-        }
-      }
-    });
-  }, 60000);
-
-  // --- Moyennes et Notes ---
-  const matieres = ["Maths", "Français", "Histoire-Géographie", "Physique-Chimie", "SVT", "Anglais", "Allemand"];
-  const tableBody = document.getElementById("tableBody");
-
-  // Créer tableau au chargement (avant connexion)
-  matieres.forEach((m, i) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${m}</td>
-      <td><input type="number" min="1" value="1" id="coef-${i}"></td>
-      <td><input type="number" min="0" value="0" id="nbEx-${i}" onchange="genererInputsNotes(${i})"></td>
-      <td><div class="notes-container" id="notes-${i}"></div></td>
-      <td><span id="moyenne-${i}">0</span></td>
-      <td><span id="total-${i}">0</span></td>
-    `;
-    tableBody.appendChild(tr);
-  });
-
-  // Génère les inputs notes selon le nb d'exos
-  function genererInputsNotes(index) {
-    const nb = parseInt(document.getElementById(`nbEx-${index}`).value);
-    const container = document.getElementById(`notes-${index}`);
-    container.innerHTML = "";
-    for (let i = 0; i < nb; i++) {
-      const input = document.createElement("input");
-      input.type = "number";
-      input.min = 0;
-      input.max = 20;
-      input.placeholder = `Note ${i+1}`;
-      input.oninput = () => {
-        calculerMoyennePartielle(index);
-        sauvegarderNotes();
-      };
-      input.id = `note-${index}-${i}`;
-      container.appendChild(input);
-    }
-  }
-
-  // Calcule moyenne partielle par matière
-  function calculerMoyennePartielle(index) {
-    const nb = parseInt(document.getElementById(`nbEx-${index}`).value);
-    let total = 0, valid = 0;
-    for (let i = 0; i < nb; i++) {
-      const val = parseFloat(document.getElementById(`note-${index}-${i}`)?.value);
-      if (!isNaN(val)) {
-        total += val;
-        valid++;
-      }
-    }
-    const moy = valid ? total / valid : 0;
-    const coef = parseFloat(document.getElementById(`coef-${index}`).value);
-    const totalCoef = moy * coef;
-    document.getElementById(`moyenne-${index}`).textContent = moy.toFixed(2);
-    document.getElementById(`total-${index}`).textContent = totalCoef.toFixed(2);
-  }
-
-  // Calcule la moyenne générale
-  function calculerMoyenne() {
-    let sc = 0, st = 0;
-    matieres.forEach((_, i) => {
-      const coef = parseFloat(document.getElementById(`coef-${i}`).value);
-      const total = parseFloat(document.getElementById(`total-${i}`).textContent);
-      if (!isNaN(coef) && coef > 0) {
-        sc += coef;
-        st += total;
-      }
-    });
-    const moyGen = sc ? (st / sc).toFixed(2) : 0;
-    document.getElementById("sommeCoef").textContent = sc.toFixed(2);
-    document.getElementById("sommeTotaux").textContent = st.toFixed(2);
-    document.getElementById("resultat").textContent = `Moyenne Générale Pondérée : ${moyGen} / 20`;
-    sauvegarderNotes();
-  }
-
-  // --- Sauvegarde des notes/coefs dans localStorage ---
-  function sauvegarderNotes() {
-    const data = matieres.map((_, i) => {
-      const coef = parseFloat(document.getElementById(`coef-${i}`).value) || 1;
-      const nbEx = parseInt(document.getElementById(`nbEx-${i}`).value) || 0;
-      const notes = [];
-      for(let j=0; j<nbEx; j++) {
-        const val = parseFloat(document.getElementById(`note-${i}-${j}`)?.value);
-        notes.push(isNaN(val) ? null : val);
-      }
-      return { coef, nbEx, notes };
-    });
-    localStorage.setItem(STORAGE_NOTES_KEY, JSON.stringify(data));
-  }
-
-  function chargerNotes() {
-    const dataRaw = localStorage.getItem(STORAGE_NOTES_KEY);
-    if (!dataRaw) return;
-    try {
-      const data = JSON.parse(dataRaw);
-      data.forEach((item, i) => {
-        if(i >= matieres.length) return;
-        document.getElementById(`coef-${i}`).value = item.coef ?? 1;
-        document.getElementById(`nbEx-${i}`).value = item.nbEx ?? 0;
-        genererInputsNotes(i);
-        if(item.notes && Array.isArray(item.notes)) {
-          item.notes.forEach((n, j) => {
-            const input = document.getElementById(`note-${i}-${j}`);
-            if(input && n !== null) input.value = n;
-          });
-        }
-        calculerMoyennePartielle(i);
       });
-      calculerMoyenne();
-    } catch {}
-  }
 
-  // Sauvegarder automatiquement quand on change coef ou nbEx
-  matieres.forEach((_, i) => {
-    document.addEventListener("input", (e) => {
-      if(e.target.id === `coef-${i}` || e.target.id === `nbEx-${i}`) {
-        if(e.target.id === `nbEx-${i}`) genererInputsNotes(i);
-        calculerMoyenne();
-      }
+      totalPoints.innerText = total.toFixed(2);
+      totalCoefs.innerText = coefs;
+      moyenneGenerale.innerText = coefs ? (total / coefs).toFixed(2) : "-";
+      sauvegarder();
+    }
+
+    function sauvegarder() {
+      document.querySelectorAll(".note-input, .coef-input").forEach(input => {
+        const id = input.dataset.id;
+        localStorage.setItem(id, input.value);
+      });
+    }
+
+    function chargerDonnees() {
+      document.querySelectorAll(".note-input, .coef-input").forEach(input => {
+        const id = input.dataset.id;
+        const val = localStorage.getItem(id);
+        if (val !== null) {
+          input.value = val;
+        }
+      });
+      calculer();
+    }
+
+    document.querySelectorAll(".note-input, .coef-input").forEach(input => {
+      input.addEventListener("input", calculer);
     });
-  });
-</script>
+
+    window.addEventListener("load", chargerDonnees);
+  </script>
 </body>
 </html>
