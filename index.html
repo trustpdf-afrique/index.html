@@ -126,6 +126,7 @@
           <th>Total</th>
         </tr>
 
+        <!-- Matières ici (inchangées) -->
         <tr class="section-title"><td colspan="4">--- LETTRES ---</td></tr>
         <tr><td>Français</td><td><input class="coef-input" data-id="coef-fr" type="number" value="3" /></td><td><input class="note-input" data-id="note-fr" type="number" /></td><td class="total"></td></tr>
         <tr><td>Anglais</td><td><input class="coef-input" data-id="coef-an" type="number" value="2" /></td><td><input class="note-input" data-id="note-an" type="number" /></td><td class="total"></td></tr>
@@ -169,20 +170,23 @@
         errorDiv.innerText = "";
         document.getElementById("login-section").style.display = "none";
         document.getElementById("bulletin-section").style.display = "block";
+
+        // Initialiser les événements ici
+        document.querySelectorAll(".note-input, .coef-input").forEach(input => {
+          input.addEventListener("input", calculer);
+        });
+
+        chargerDonnees(); // Charger les données depuis le stockage
       } else {
         errorDiv.innerText = "⛔ Informations incorrectes. Veuillez réessayer.";
       }
     }
 
-    const rows = document.querySelectorAll("#bulletin tr:not(.section-title):not(.total-row):not(.final-row)");
-    const totalCoefs = document.getElementById("total-coefs");
-    const totalPoints = document.getElementById("total-points");
-    const moyenneGenerale = document.getElementById("moyenne-generale");
-
     function calculer() {
       let total = 0;
       let coefs = 0;
-
+      const rows = document.querySelectorAll("#bulletin tr:not(.section-title):not(.total-row):not(.final-row)");
+      
       rows.forEach(row => {
         const coefInput = row.querySelector(".coef-input");
         const noteInput = row.querySelector(".note-input");
@@ -201,9 +205,9 @@
         }
       });
 
-      totalPoints.innerText = total.toFixed(2);
-      totalCoefs.innerText = coefs;
-      moyenneGenerale.innerText = coefs ? (total / coefs).toFixed(2) : "-";
+      document.getElementById("total-coefs").innerText = coefs;
+      document.getElementById("total-points").innerText = total.toFixed(2);
+      document.getElementById("moyenne-generale").innerText = coefs ? (total / coefs).toFixed(2) : "-";
       sauvegarder();
     }
 
@@ -224,12 +228,6 @@
       });
       calculer();
     }
-
-    document.querySelectorAll(".note-input, .coef-input").forEach(input => {
-      input.addEventListener("input", calculer);
-    });
-
-    window.addEventListener("load", chargerDonnees);
   </script>
 </body>
-  </html>
+</html>
