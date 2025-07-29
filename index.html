@@ -1,207 +1,235 @@
-    <!DOCTYPE html>  <html lang="fr">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <title>Connexion & Bulletin Zakaria</title>  
-  <style>  
-    body {  
-      font-family: Arial, sans-serif;  
-      background: #f0f8ff;  
-      margin: 0;  
-      min-height: 100vh;  
-      display: flex;  
-      justify-content: center;  
-      align-items: flex-start;  
-      padding: 40px 20px;  
-      color: #333;  
-    }  
-    .container {  
-      max-width: 800px;  
-      width: 100%;  
-      background: white;  
-      padding: 30px 40px;  
-      border-radius: 8px;  
-      box-shadow: 0 0 15px rgba(26, 35, 126, 0.3);  
-    }  
-    h2 {  
-      color: #1a237e;  
-      margin-bottom: 20px;  
-      text-align: center;  
-    }  
-    /* Style connexion */  
-    #login-section input[type="text"],  
-    #login-section input[type="password"],  
-    #login-section input[type="number"] {  
-      width: 100%;  
-      padding: 10px;  
-      margin: 8px 0;  
-      border: 1px solid #aaa;  
-      border-radius: 4px;  
-      font-size: 16px;  
-      box-sizing: border-box;  
-    }  
-    #login-section button {  
-      width: 100%;  
-      padding: 12px;  
-      background-color: #1a237e;  
-      color: white;  
-      font-weight: bold;  
-      border: none;  
-      border-radius: 5px;  
-      cursor: pointer;  
-      font-size: 18px;  
-      margin-top: 12px;  
-      transition: background-color 0.3s ease;  
-    }  
-    #login-section button:hover {  
-      background-color: #3949ab;  
-    }  
-    #error {  
-      color: #d32f2f;  
-      margin-top: 15px;  
-      font-weight: bold;  
-      min-height: 20px;  
-      text-align: center;  
-    }  
-    /* Style bulletin */  
-    table {  
-      width: 100%;  
-      border-collapse: collapse;  
-      background: white;  
-      border: 3px solid #000;  
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
-      margin-top: 30px;  
-    }  
-    th, td {  
-      border: 1px solid #444;  
-      padding: 10px;  
-      text-align: center;  
-    }  
-    th {  
-      background-color: #bbdefb;  
-      font-weight: bold;  
-    }  
-    tr.section-title td {  
-      background-color: #64b5f6;  
-      font-weight: bold;  
-      text-align: left;  
-      padding-left: 10px;  
-      color: #fff;  
-    }  
-    input.note-input {  
-      width: 80px;  
-      padding: 5px;  
-      text-align: center;  
-      border: 1px solid #aaa;  
-      border-radius: 4px;  
-    }  
-    tr.total-row td {  
-      background-color: #fff59d;  
-      font-weight: bold;  
-    }  
-    tr.final-row td {  
-      background-color: #a5d6a7;  
-      font-weight: bold;  
-      font-size: 18px;  
-    }  
-  </style>  
-</head>  
-<body>  
-  <div class="container">  
-    <!-- SECTION CONNEXION -->  
-    <div id="login-section">  
-      <h2>🔐 Connexion Zakaria</h2>  
-      <input type="text" id="username" placeholder="Nom d'utilisateur" autocomplete="username" />  
-      <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password" />  
-      <input type="number" id="idcode" placeholder="Numéro d'identité" />  
-      <button onclick="verifierConnexion()">Se connecter</button>  
-      <div class="error" id="error"></div>  
-    </div>  <!-- SECTION BULLETIN (cachée par défaut) -->  
-<div id="bulletin-section" style="display:none;">  
-  <h2>📘 Bulletin de Zakaria - Calcul Automatique</h2>  
-  <table id="bulletin">  
-    <tr>  
-      <th>Discipline</th>  
-      <th>Coef.</th>  
-      <th>Note</th>  
-      <th>Total</th>  
-    </tr>  
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Connexion & Bulletin Zakaria</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(26, 35, 126, 0.3);
+    }
+    h2 {
+      color: #1a237e;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #login-section input[type="text"],
+    #login-section input[type="password"],
+    #login-section input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    #login-section button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1a237e;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 12px;
+      transition: background-color 0.3s ease;
+    }
+    #login-section button:hover {
+      background-color: #3949ab;
+    }
+    #error {
+      color: #d32f2f;
+      margin-top: 15px;
+      font-weight: bold;
+      min-height: 20px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border: 3px solid #000;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #bbdefb;
+      font-weight: bold;
+    }
+    tr.section-title td {
+      background-color: #64b5f6;
+      font-weight: bold;
+      text-align: left;
+      padding-left: 10px;
+      color: #fff;
+    }
+    input.note-input, input.coef-input {
+      width: 60px;
+      padding: 5px;
+      text-align: center;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    tr.total-row td {
+      background-color: #fff59d;
+      font-weight: bold;
+    }
+    tr.final-row td {
+      background-color: #a5d6a7;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- SECTION CONNEXION -->
+    <div id="login-section">
+      <h2>🔐 Connexion Zakaria</h2>
+      <input type="text" id="username" placeholder="Nom d'utilisateur" autocomplete="username" />
+      <input type="password" id="password" placeholder="Mot de passe" autocomplete="current-password" />
+      <input type="number" id="idcode" placeholder="Numéro d'identité" />
+      <button onclick="verifierConnexion()">Se connecter</button>
+      <div class="error" id="error"></div>
+    </div>
 
-    <tr class="section-title"><td colspan="4">--- LETTRES ---</td></tr>  
-    <tr><td>Français</td><td>3</td><td><input type="number" min="0" max="20" class="note-input" data-coef="3"></td><td class="total"></td></tr>  
-    <tr><td>Anglais</td><td>2</td><td><input type="number" min="0" max="20" class="note-input" data-coef="2"></td><td class="total"></td></tr>  
-    <tr><td>Histoire - Géographie</td><td>2</td><td><input type="number" min="0" max="20" class="note-input" data-coef="2"></td><td class="total"></td></tr>  
+    <!-- SECTION BULLETIN -->
+    <div id="bulletin-section" style="display:none;">
+      <h2>📘 Bulletin de Zakaria - Calcul Automatique</h2>
+      <table id="bulletin">
+        <tr>
+          <th>Discipline</th>
+          <th>Coef.</th>
+          <th>Note</th>
+          <th>Total</th>
+        </tr>
 
-    <tr class="section-title"><td colspan="4">--- SCIENCES ---</td></tr>  
-    <tr><td>Mathématiques</td><td>3</td><td><input type="number" min="0" max="20" class="note-input" data-coef="3"></td><td class="total"></td></tr>  
-    <tr><td>Physique - Chimie</td><td>2</td><td><input type="number" min="0" max="20" class="note-input" data-coef="2"></td><td class="total"></td></tr>  
-    <tr><td>SVT</td><td>2</td><td><input type="number" min="0" max="20" class="note-input" data-coef="2"></td><td class="total"></td></tr>  
+        <tr class="section-title"><td colspan="4">--- LETTRES ---</td></tr>
+        <tr><td>Français</td><td><input type="number" value="3" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Anglais</td><td><input type="number" value="2" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Histoire - Géographie</td><td><input type="number" value="2" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
 
-    <tr class="section-title"><td colspan="4">--- AUTRES MATIÈRES ---</td></tr>  
-    <tr><td>EDHC</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
-    <tr><td>EPS</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
-    <tr><td>Arts plastiques</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
-    <tr><td>Musique</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
-    <tr><td>TICE à l'école</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
-    <tr><td>Conduite</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
-    <tr><td>Entrepreneuriat</td><td>1</td><td><input type="number" min="0" max="20" class="note-input" data-coef="1"></td><td class="total"></td></tr>  
+        <tr class="section-title"><td colspan="4">--- SCIENCES ---</td></tr>
+        <tr><td>Mathématiques</td><td><input type="number" value="3" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Physique - Chimie</td><td><input type="number" value="2" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>SVT</td><td><input type="number" value="2" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
 
-    <tr class="total-row">  
-      <td colspan="2">Total général</td>  
-      <td id="total-coefs">-</td>  
-      <td id="total-points">-</td>  
-    </tr>  
+        <tr class="section-title"><td colspan="4">--- AUTRES MATIÈRES ---</td></tr>
+        <tr><td>EDHC</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>EPS</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Arts plastiques</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Musique</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>TICE à l'école</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Conduite</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
+        <tr><td>Entrepreneuriat</td><td><input type="number" value="1" class="coef-input"></td><td><input type="number" min="0" max="20" class="note-input"></td><td class="total"></td></tr>
 
-    <tr class="final-row">  
-      <td colspan="3">🎯 Moyenne Générale</td>  
-      <td id="moyenne-generale">-</td>  
-    </tr>  
-  </table>  
-</div>
+        <tr class="total-row">
+          <td colspan="2">Total général</td>
+          <td id="total-coefs">-</td>
+          <td id="total-points">-</td>
+        </tr>
 
-  </div>    <script>  
-    function verifierConnexion() {  
-      const user = document.getElementById("username").value.trim();  
-      const pass = document.getElementById("password").value.trim();  
-      const idcode = document.getElementById("idcode").value.trim();  
-      const errorDiv = document.getElementById("error");  
-  
-      if (user === "Niampa" && pass === "23214622C" && idcode === "22") {  
-        errorDiv.innerText = "";  
-        document.getElementById("login-section").style.display = "none";  
-        document.getElementById("bulletin-section").style.display = "block";  
-      } else {  
-        errorDiv.innerText = "⛔ Informations incorrectes. Veuillez réessayer.";  
-      }  
-    }  
-  
-    // Calcul automatique des moyennes  
-    const notesInputs = document.querySelectorAll(".note-input");  
-    const totalCells = document.querySelectorAll("#bulletin .total");  
-    const totalCoefs = document.getElementById("total-coefs");  
-    const totalPoints = document.getElementById("total-points");  
-    const moyenneGenerale = document.getElementById("moyenne-generale");  
-  
-    function calculer() {  
-      let total = 0;  
-      let coefs = 0;  
-      notesInputs.forEach((input, index) => {  
-        const coef = parseFloat(input.dataset.coef);  
-        const note = parseFloat(input.value);  
-        if (!isNaN(note) && note >= 0 && note <= 20) {  
-          const val = note * coef;  
-          totalCells[index].innerText = val.toFixed(2);  
-          total += val;  
-          coefs += coef;  
-        } else {  
-          totalCells[index].innerText = "";  
-        }  
-      });  
-      totalPoints.innerText = total.toFixed(2);  
-      totalCoefs.innerText = coefs;  
-      moyenneGenerale.innerText = coefs ? (total / coefs).toFixed(2) : "-";  
-    }  
-  
-    notesInputs.forEach(input => input.addEventListener("input", calculer));  
-  </script>  </body>  
-    </html>
+        <tr class="final-row">
+          <td colspan="3">🎯 Moyenne Générale</td>
+          <td id="moyenne-generale">-</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function verifierConnexion() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const idcode = document.getElementById("idcode").value.trim();
+      const errorDiv = document.getElementById("error");
+
+      if (user === "Niampa" && pass === "23214622C" && idcode === "22") {
+        errorDiv.innerText = "";
+        document.getElementById("login-section").style.display = "none";
+        document.getElementById("bulletin-section").style.display = "block";
+      } else {
+        errorDiv.innerText = "⛔ Informations incorrectes. Veuillez réessayer.";
+      }
+    }
+
+    const notesInputs = document.querySelectorAll(".note-input");
+    const coefInputs = document.querySelectorAll(".coef-input");
+    const totalCells = document.querySelectorAll("#bulletin .total");
+    const totalCoefs = document.getElementById("total-coefs");
+    const totalPoints = document.getElementById("total-points");
+    const moyenneGenerale = document.getElementById("moyenne-generale");
+
+    function sauvegarder() {
+      const notes = Array.from(notesInputs).map(input => input.value);
+      const coefs = Array.from(coefInputs).map(input => input.value);
+      localStorage.setItem("notesZakaria", JSON.stringify(notes));
+      localStorage.setItem("coefsZakaria", JSON.stringify(coefs));
+    }
+
+    function charger() {
+      const notes = JSON.parse(localStorage.getItem("notesZakaria") || "[]");
+      const coefs = JSON.parse(localStorage.getItem("coefsZakaria") || "[]");
+
+      notes.forEach((val, i) => { if (notesInputs[i]) notesInputs[i].value = val; });
+      coefs.forEach((val, i) => { if (coefInputs[i]) coefInputs[i].value = val; });
+
+      calculer();
+    }
+
+    function calculer() {
+      let total = 0;
+      let coefs = 0;
+      notesInputs.forEach((input, index) => {
+        const row = input.closest("tr");
+        const coefInput = row.querySelector(".coef-input");
+        const coef = parseFloat(coefInput.value);
+        const note = parseFloat(input.value);
+
+        if (!isNaN(note) && !isNaN(coef) && note >= 0 && note <= 20) {
+          const val = note * coef;
+          totalCells[index].innerText = val.toFixed(2);
+          total += val;
+          coefs += coef;
+        } else {
+          totalCells[index].innerText = "";
+        }
+      });
+
+      totalPoints.innerText = total.toFixed(2);
+      totalCoefs.innerText = coefs;
+      moyenneGenerale.innerText = coefs ? (total / coefs).toFixed(2) : "-";
+
+      sauvegarder();
+    }
+
+    notesInputs.forEach(input => input.addEventListener("input", calculer));
+    coefInputs.forEach(input => input.addEventListener("input", calculer));
+    window.addEventListener("DOMContentLoaded", charger);
+  </script>
+</body>
+</html>
